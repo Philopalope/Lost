@@ -17,7 +17,7 @@ In the Unity startup menu, select "Open" and navigate to the file that contains 
 
 **Open Scene**
 Once the project is open, you must load the only scene I have made right now.  
-File -> Open Scene -> Lost.unity 
+*File -> Open Scene -> Lost.unity* 
   
 This will load the scene and allow you to compile the project.
 
@@ -29,3 +29,5 @@ Once you've got the scene loaded in, you can press the play button at the top an
 The game is a rogue-like 2D RPG. Use WASD or Up-Down-Left-Right arrows to control the player. Tap space bar to fire your magic attack and E to interact with NPC's and chests.  
   
 You can mess around with certain in game values like Gold, Health, and even the player's attack type.  But be careful about what you change as unlinking certain GameObjects can result in the project not compiling.
+
+If you wish to see what I've actually written or added go to *Assets -> Scripts*
