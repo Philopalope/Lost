@@ -9,19 +9,19 @@ As far as I know, it should run on all three of them.  The project template I se
 **Download Unity**  
 You can download the free version of Unity by downloading from "Personal."  Follow the installation steps and run it.
   
-**Download or Pull project from Github**
+**Download or Pull project from Github**  
 Put the contents into a local file
 
-**Open Project**
+**Open Project**  
 In the Unity startup menu, select "Open" and navigate to the file that contains the project files.  In Unity, you do not open a project file. Instead, you select the folder that contains all of the assets, and load that.
 
-**Open Scene**
+**Open Scene**  
 Once the project is open, you must load the only scene I have made right now.  
 *File -> Open Scene -> Lost.unity* 
   
 This will load the scene and allow you to compile the project.
 
-**Run Project**
+**Run Project**  
 Once you've got the scene loaded in, you can press the play button at the top and start up the game!
 
 
