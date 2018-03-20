@@ -8,6 +8,7 @@ public class Spider_Control : MonoBehaviour
 
 	private Rigidbody2D Erbody;
 	private Animator Eanim;
+	private Collider2D collide;
 
 	public Collider2D AreaConfinement;
 	private Vector2 minWalkPoint;
@@ -30,7 +31,7 @@ public class Spider_Control : MonoBehaviour
 	{
 		Eanim = GetComponent<Animator>();
 		Erbody = GetComponent<Rigidbody2D>();
-
+		collide = GetComponent<Collider2D>();
 		if(AreaConfinement != null)
 		{
 			minWalkPoint = AreaConfinement.bounds.min;
@@ -120,11 +121,12 @@ public class Spider_Control : MonoBehaviour
 		}
 		else
 		{
+			collide.enabled = false;
 			Erbody.velocity = Vector2.zero;
-
 			despawnCounter -= Time.deltaTime;
 			if(despawnCounter < 0)
 			{
+				//ADD PARTICLE ON DESTROY
 				Destroy(gameObject);
 			}
 		}

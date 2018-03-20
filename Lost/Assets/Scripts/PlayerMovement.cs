@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour 
 {
@@ -11,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 	public DialogueManager DM;
 
 	public bool inDialogue;
+	public bool pause = false;
 
 	void Start () 
 	{
@@ -35,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 			return;
 		}
 
-		if(!anim.GetBool("IsDead"))
+		if(!anim.GetBool("IsDead") && !pause)
 		{
 			Vector2 movement_vector = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
 
@@ -44,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 				anim.SetBool("IsWalking",true);
 				anim.SetFloat("Input_x", movement_vector.x);
 				anim.SetFloat("Input_y",movement_vector.y);
+				//Debug.Log(movement_vector + "");
 			}
 			else 
 			{ 
@@ -52,18 +55,17 @@ public class PlayerMovement : MonoBehaviour
 
 			rbody.MovePosition(rbody.position + movement_vector * (Time.deltaTime*speed));
 		}
-		else
+		else if(anim.GetBool("IsDead"))
 		{
 			waitReload -= Time.deltaTime;
 			rbody.velocity = Vector2.zero;
 			if(waitReload < 0)
 			{
-				Application.LoadLevel(Application.loadedLevel);
+				SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 				anim.SetBool("IsDead",false);
 			}
 		}
 
 	}
-
 }
 

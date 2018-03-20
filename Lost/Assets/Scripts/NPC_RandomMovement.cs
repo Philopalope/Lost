@@ -52,6 +52,7 @@ public class NPC_RandomMovement : MonoBehaviour
 	void FixedUpdate () 
 	{
 		storedWalking = isWalking;
+		
 		if(!DM.dialogueOpen)
 		{
 			inDialogue = false;
@@ -65,6 +66,10 @@ public class NPC_RandomMovement : MonoBehaviour
 		{
 			storedWalking = NPCAnim.GetBool("NPCMoving");
 			NPCRbody.velocity = Vector2.zero;
+
+			//FIX DIALOGUE FACING SYSTEM
+			//Debug.Log(test);
+
 			NPCAnim.SetFloat("NPC_x",player.GetComponent<Animator>().GetFloat("Input_x")*-1);
 			NPCAnim.SetFloat("NPC_y",player.GetComponent<Animator>().GetFloat("Input_y")*-1);
 			NPCAnim.SetBool("NPCMoving",false);

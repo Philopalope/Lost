@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.EventSystems;
 //CHANGE
-public class Stacks : MonoBehaviour {
+public class Stacks : MonoBehaviour, IPointerClickHandler
+{
 
 	private Stack<Item> items;
 
@@ -13,17 +14,21 @@ public class Stacks : MonoBehaviour {
 	public Sprite slotEmpty;
 	public Sprite slotHighlight;
 
-	public bool IsEmpty() 
+	public Item CurrentItem{ get {return items.Peek();}}
+	public bool IsAvailable{ get {return CurrentItem.maxSize > items.Count; }}
+	public bool IsEmpty { get{ return items.Count == 0;}}
+
+	public Stack<Item> Items
 	{
-		Debug.Log(items.Count == 0);
-		return items.Count == 0;
-	} 
+		get {return items;}
+		set {items = value;}
+	}
 
 	void Start()
 	{
 		items = new Stack<Item>();
 		RectTransform slotRect = GetComponent<RectTransform>();
-		RectTransform textRect = GetComponent<RectTransform>();
+		RectTransform textRect = stackText.GetComponent<RectTransform>();
 
 		int textScaleFactor = (int) (slotRect.sizeDelta.x * 0.60);
 		stackText.resizeTextMaxSize = textScaleFactor;
@@ -31,8 +36,6 @@ public class Stacks : MonoBehaviour {
 
 		textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRect.sizeDelta.x);
 		textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRect.sizeDelta.y);
-		Debug.Log("test");
-		//this.transform.parent.gameObject.SetActive(false);
 	}
 
 	public void AddItem(Item itemAdd)
@@ -47,6 +50,13 @@ public class Stacks : MonoBehaviour {
 		ChangeSprite(itemAdd.spriteNeutral, itemAdd.spriteHighlighted);
 	}
 
+	public void AddItems(Stack<Item> itemsAdd)
+	{
+		this.items = new Stack<Item>(itemsAdd);
+		stackText.text = itemsAdd.Count > 1 ? itemsAdd.Count.ToString() : string.Empty;
+		ChangeSprite(CurrentItem.spriteNeutral, CurrentItem.spriteHighlighted);
+	}
+
 	private void ChangeSprite(Sprite neutral, Sprite highlighted)
 	{
 		GetComponent<Image>().sprite = neutral;
@@ -58,5 +68,41 @@ public class Stacks : MonoBehaviour {
 		ss.pressedSprite = neutral;
 
 		GetComponent<Button>().spriteState = ss;
+	}
+
+	private void UseItem()
+	{
+		if(!IsEmpty)
+		{
+			if(items.Peek().useableItem)
+			{
+				items.Pop().UseItem();
+				stackText.text = items.Count > 1 ? items.Count.ToString() : string.Empty;
+				if(IsEmpty)
+				{
+					ChangeSprite(slotEmpty, slotHighlight);
+					Inventory.EmptySlots++;
+				}
+			}
+			else
+			{
+				Debug.Log("You cannot use this item!");
+			}
+		}
+	}
+
+	public void ClearSlot()
+	{
+		items.Clear();
+		ChangeSprite(slotEmpty,slotHighlight);
+		stackText.text = string.Empty;
+	}
+
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		if(eventData.button == PointerEventData.InputButton.Right)
+		{
+			UseItem();
+		}
 	}
 }

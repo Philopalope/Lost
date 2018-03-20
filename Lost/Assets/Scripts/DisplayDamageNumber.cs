@@ -11,11 +11,6 @@ public class DisplayDamageNumber : MonoBehaviour {
 
 	public float timeOfNumber;
 
-
-	void Start () {
-		
-	}
-	
 	void Update () 
 	{
 		damageText.text = "" + damageNumber;

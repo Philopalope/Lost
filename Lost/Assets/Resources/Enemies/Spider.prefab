@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 50315238154966822}
   - component: {fileID: 114820263358840376}
   - component: {fileID: 114756201889872848}
-  - component: {fileID: 114501080995844800}
   - component: {fileID: 114963198950931152}
   m_Layer: 0
   m_Name: Spider
@@ -99,18 +98,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114501080995844800
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1273980179546460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c34c5f0ee090c94690ea2dc2cc48aca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage_dealt: 0
 --- !u!114 &114756201889872848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,7 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMaxHealth: 15
   enemyCurrentHealth: 0
-  goldReward: 5
+  gold_reward: 25
+  experience_reward: 100
 --- !u!212 &212484214792796930
 SpriteRenderer:
   m_ObjectHideFlags: 1

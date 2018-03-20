@@ -41,7 +41,7 @@ Transform:
   m_GameObject: {fileID: 1677906094628142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 131.562, y: -17.186, z: 0}
-  m_LocalScale: {x: 0.030774726, y: 0.030774727, z: 0}
+  m_LocalScale: {x: 0.030774726, y: 0.030774727, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage_dealt: 18
+  change_sprite: {fileID: 0}
 --- !u!198 &198170009206694868
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3558,7 +3559,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 8
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: cf694e57cfd96e34e973c9918a1f363e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

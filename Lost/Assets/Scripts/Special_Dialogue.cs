@@ -8,7 +8,8 @@ public class Special_Dialogue : MonoBehaviour {
 
 	public string[] lines;
 	public KeyCode[] options;
-	public bool one_time_information = false;
+	public bool one_time_information;
+	public bool activation;
 
 	void Start () 
 	{
@@ -35,6 +36,12 @@ public class Special_Dialogue : MonoBehaviour {
 				{
 					DM.currentLine = 0;
 					one_time_information = false;
+					if(activation)
+					{
+						Debug.Log("Activate");
+
+					}
+
 				}
 
 				if(GetComponentInParent<NPC_RandomMovement>() != null)
