@@ -7,17 +7,24 @@ using System;
 
 public class Shop : MonoBehaviour {
 
+	//Shop Template
 	public GameObject shopPrefab;
+
+	//Player Information
 	private static Player_StatManager playerStats;
 	private static GameObject playerReference;
-	private static ShopItem shopImage;
+
+	//Shop variables for shop window
+	private ShopItem shopImage;
 	private RectTransform shopRect;
 	private Text shopInfo;
 
+	//Shop stats
 	private int items_in_shop;
 	private float shopHeight;
 	private float titlePadding = 20f;
 
+	//Lists of shop object, item, and cost
 	private List<GameObject> shopStock = new List<GameObject>();
 	public static List<ItemName> ItemList = new List<ItemName>();
 	public static List<int> ItemCost = new List<int>();
@@ -27,6 +34,7 @@ public class Shop : MonoBehaviour {
 		playerStats = FindObjectOfType<Player_StatManager>();
 	}
 
+	//Convert enum to string
 	public string GetItemName(ItemName item)
 	{
 		switch(item)
@@ -42,11 +50,13 @@ public class Shop : MonoBehaviour {
 		}
 	}
 
+	//Create shop window for NPC being interacted with
 	public void CreateShop(ItemName[] items, int[] cost, Sprite[] shopSprites, GameObject player)
 	{
 		playerReference = player;
 		shopImage = shopPrefab.GetComponentInChildren<ShopItem>();
-		Debug.Log(shopSprites[0]);
+
+		//Ensure each item has a cost and a sprite attached to it
 		if(items.Length != cost.Length || items.Length != shopSprites.Length)
 		{
 			throw new Exception("Items in Shop do not match up to Cost Array... please check attached shop scripts");
@@ -58,6 +68,7 @@ public class Shop : MonoBehaviour {
 		shopRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,shopHeight);
 		items_in_shop = items.Length;
 
+		//Instantiate shop items
 		for(int i = 0; i < items.Length; i++)
 		{
 			shopImage.UpdateShopSprite(shopSprites[i]);
@@ -81,6 +92,7 @@ public class Shop : MonoBehaviour {
 		}
 	}
 
+	//Destroy objects associated with shop (only 1 shop ever instantiated at a single time)
 	public void DestroyShop()
 	{
 		for(int i = 0; i < items_in_shop; i++)
@@ -93,15 +105,18 @@ public class Shop : MonoBehaviour {
 		ItemCost.Clear();
 	}
 
+	//Give item associated with button clicked to player and charge gold
 	public void PurchaseItem()
 	{
+		//index associated with position of shop slot
 		int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
 
 		if(!playerStats.ChargeGold(ItemCost[index]))
 		{
 			return;
 		}
-		//Make Sound on Item Purchase
+
+		//Make Sound on Item Purchase **TO DO**
 		switch(ItemList[index])
 		{
 			case ItemName.HPotion:

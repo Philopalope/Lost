@@ -4,30 +4,23 @@ using UnityEngine;
 
 public class OpenChest : MonoBehaviour {
 
+	//Animation of chest and player stats;
 	Animator anim;
 	private Player_StatManager player_items;
 
-	public enum Contents{HPotion, MPotion, Random};
-	public Contents[] Items;
+	//Contents of chest
+	public ItemName[] Items;
+	public QuestItem questItem;
 	public int chest_level;
 	public int gold;
-
-	public enum QuestItem{None, Gloves};
-	public QuestItem questItem;
-
 
 	void Start () 
 	{
 		anim = GetComponent<Animator>();
 		player_items = FindObjectOfType<Player_StatManager>();
 	}
-	
-	
-	void Update () 
-	{
-		
-	}
 
+	//Player collision with chest
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if(other.gameObject.name == "Player")
@@ -40,24 +33,28 @@ public class OpenChest : MonoBehaviour {
 		}
 	}
 
+	//Gives contents of chest to player
 	public void GiveItems(GameObject player)
 	{
+		//Give gold to player
 		int gold_portion = gold*Random.Range(1,chest_level);
 		player_items.gold += gold_portion;
 		Debug.Log("Gold Given: " + gold_portion);
-		foreach(Contents itemType in Items)
+
+		//Give items to player
+		foreach(ItemName itemType in Items)
 		{
 			switch(itemType)
 			{
-				case Contents.HPotion:
-					Debug.Log("You found a potion!");
+				case ItemName.HPotion:
 					Instantiate(Resources.Load<GameObject>("Items/Health Potion (Large)"),player.transform.position,Quaternion.identity);
 					break;
-				case Contents.MPotion:
+				case ItemName.MPotion:
 					break;	
 			}
 		}
 
+		//Chests that contain quest items must give quest item seperately
 		if(gameObject.tag == "QuestChest")
 		{
 			switch(questItem)

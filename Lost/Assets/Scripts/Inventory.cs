@@ -6,41 +6,55 @@ using UnityEngine.UI;
 //CHANGE
 public class Inventory : MonoBehaviour
 {
+	//Inventory Canvas and Background
 	private Canvas CanvasObject;
 	private RectTransform inventoryRect;
 
+	//Tooltip of item
 	private static GameObject tooltip;
 	public GameObject tooltipObj;
 
+	//Text of item
 	public Text visual_textObj;
 	public Text sizeTextObj;
 	private static Text sizeText;
 	private static Text visual_text;
 
+	//Inventory background resizing
 	private float inventoryWidth, inventoryHeight;
 	private float inventoryShiftX, inventoryShiftY;
 
+	//Number of slots and rows of inventory
 	public int slots;
 	public int rows;
 
+	//Defined for outside script to check if inventory is active
 	public bool canvas_enabled;
 
+	//Offset of inventory slots
 	public float slotPaddingLeft, slotPaddingTop;
 
+	//Size of slots and slot prefab
 	private float slotSize = 40f;
 	public GameObject slotPrefab;
 
+	//Handle Item switching
 	private Stacks frm, to;
 	private List<GameObject> allSlots;
 
+	//Prefab of slot image
 	public GameObject iconPrefab;
-	private static GameObject hoverObject;
 
+	//Number of empty slots in inventory
 	private static int emptySlots;
 
+	//Canvas reference
 	public Canvas canvasRef;
-	private float hoverYOffset;
 
+	//private static GameObject hoverObject;
+	//private float hoverYOffset;
+
+	//Getter method
 	public static int EmptySlots
 	{
 		get { return emptySlots;}
@@ -58,6 +72,7 @@ public class Inventory : MonoBehaviour
 		canvas_enabled = false;
 	}
 
+	//Meant for drag and drop in inventory.  Postponed for now
 	void Update()
 	{
 		// if(hoverObject != null)
@@ -77,6 +92,7 @@ public class Inventory : MonoBehaviour
 
 		//hoverYOffset = slotSize * 0.01f;
 
+		//Inventory initialization
 		inventoryWidth = (slots / rows) * (slotSize) + slotPaddingLeft*2;
 		inventoryHeight = (rows) * (slotSize) + slotPaddingTop*2;
 
@@ -90,6 +106,7 @@ public class Inventory : MonoBehaviour
 
 		inventoryRect.position = new Vector3(inventoryShiftX,inventoryShiftY,inventoryRect.position.z);
 
+		//Top row of inventory slots representing player item bar
 		for(int x = 0; x < (slots/rows); x++)
 		{
 			GameObject playerSlot = (GameObject) Instantiate(slotPrefab);
@@ -105,6 +122,7 @@ public class Inventory : MonoBehaviour
 			playerSlotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
 		}
 
+		//Item "back pack" inventory
 		for(int i = 0; i < rows; i++)
 		{
 			for(int j = 0; j < (slots/rows); j++)
@@ -128,6 +146,7 @@ public class Inventory : MonoBehaviour
 
 	}
 
+	//Turn tooltip on when hovering over item
 	public void ToggleTooltipOn(GameObject slot)
 	{
 		if(!slot.GetComponent<Stacks>().IsEmpty)
@@ -144,12 +163,13 @@ public class Inventory : MonoBehaviour
 		
 	}
 
+	//Turn tooltip off when mouse leaves item rect
 	public void ToggleTooltipOff(GameObject slot)
 	{
 		tooltip.SetActive(false);
 	}
 
-	//Check to add item
+	//Check if able to add item to slot
 	public bool AddItem(Item itemAdd)
 	{
 		if(itemAdd.maxSize == 1)
@@ -179,7 +199,7 @@ public class Inventory : MonoBehaviour
 		return false;
 	}
 
-	//Check for empty slot
+	//Check for an empty slot
 	private bool PlaceEmpty(Item itemCheck)
 	{
 		if(emptySlots > 0)
@@ -199,6 +219,7 @@ public class Inventory : MonoBehaviour
 		return false;
 	}
 
+	//Move item from A to B in inventory
 	public void MoveItem(GameObject clickedItem)
 	{
 		if(frm == null)
@@ -213,7 +234,7 @@ public class Inventory : MonoBehaviour
 				// hoverObject.name = "Selected Item";
 
 				// RectTransform hoverTransform = hoverObject.GetComponent<RectTransform>();
-				RectTransform clickedTransform = clickedItem.GetComponent<RectTransform>();
+				// RectTransform clickedTransform = clickedItem.GetComponent<RectTransform>();
 
 				// hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clickedTransform.sizeDelta.x);
 				// hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clickedTransform.sizeDelta.y);
@@ -228,6 +249,7 @@ public class Inventory : MonoBehaviour
 			Destroy(GameObject.Find("Selected Item"));
 		}
 
+		//If both are not null, swap items
 		if(to != null && frm != null)
 		{
 			Stack<Item> swapTo = new Stack<Item>(to.Items);
@@ -244,10 +266,11 @@ public class Inventory : MonoBehaviour
 			frm.GetComponent<Image>().color = Color.white;
 			to = null;
 			frm = null;
-			hoverObject = null;
+			// hoverObject = null;
 		}
 	}
 
+	//Toggle inventory window
 	public void ToggleInventory()
 	{
 		CanvasObject.enabled = !CanvasObject.enabled;

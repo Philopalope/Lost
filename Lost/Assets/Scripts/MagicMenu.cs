@@ -18,12 +18,14 @@ public class MagicMenu : MonoBehaviour
 		CreateMagicMenu();
 	}
 
+	//Create Magic Menu
 	private void CreateMagicMenu()
 	{
 		menu_rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width/1.5f);
 		menu_rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height/1.5f);
 	}
 
+	//Toggle Menu on and off
 	public void ToggleMagicMenu()
 	{
 		CanvasObject.enabled = !CanvasObject.enabled;

@@ -3,36 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Attack : MonoBehaviour 
+public class Attack : MonoBehaviour
 {
+	//Animator of projectile, DialogueManager reference, Inventory reference
 	Animator anim;
 	public DialogueManager DM;
 	private Inventory INV;
+
+	//Projectile's velocity
 	public float projectile_speed = 2;
 
+	//Player direction faced
 	private int player_face;
 	private int player_actual;
+
+	//Offset projectile instead of spawning inside player
 	private Vector2 offset;
 	private float offsetNum = 0.2f;
-	public float maxDistance = 2;
 
+	//Range and Cooldown of attack
 	private List<float> rangeCounter = new List<float>();
 	public float range=0.9f;
 	private List<float> coolDownCounter = new List<float>();
 	public float cooldownTime=0.9f;
 
+	//Projectile boolean information
 	public bool ReadyToFire = true;
 	private bool rotate_once = true;
 	private bool is_rotated;
 	private bool hitAnimation;
 	public bool isFiring;
 
+	//Info for what to load as projectile
 	public enum Magic {fireball, firebomb, firecharge, airburst, tripleburst, storm};
 	public Magic magic_attack;
 	private GameObject attack;
 	private GameObject projectile;
 
+	//Projectile's fired at same time
 	private int projectile_amount;
+
+	//Projectile Lists for what is on screen and what to destroy
 	private List<GameObject> projectile_storage = new List<GameObject>();
 	private List<GameObject> projectile_destruction = new List<GameObject>();
 
@@ -44,12 +55,13 @@ public class Attack : MonoBehaviour
 		INV = FindObjectOfType<Inventory>();
 	}
 	
+
 	void Update () 
 	{
-		//CHANGE
+		//TO DO --- ALLOW PLAYER TO CHANGE THEIR ATTACK METHOD
 		SwapAttack(magic_attack);
-		////////
 
+		//Get player's direction and allow projectile to spawn in that direction
 		Vector2 facing_vector = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
 		//Up
 		if(facing_vector == new Vector2(0,1) || facing_vector == new Vector2(1,1) || facing_vector == new Vector2(-1,1))
@@ -77,6 +89,7 @@ public class Attack : MonoBehaviour
 			offset = new Vector2(offsetNum,0);
 		}
 
+		//Fire projectile on space down -> stop when space up (allows continuous firing)
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
 			isFiring = true;
@@ -86,21 +99,24 @@ public class Attack : MonoBehaviour
 			isFiring = false;
 		}
 
+		//Fire only when cooldown is reached and dialogue and inventory are not open
 		if(isFiring && ReadyToFire && !DM.dialogueOpen && !INV.canvas_enabled)
 		{
 			anim.SetBool("IsAttacking",true);
 			ReadyToFire = false;
 			rotate_once = true;
 
+			//Spawn projectiles based on amount
 			for(int i = 0; i<projectile_amount; i++)
 			{
 				attack = (GameObject) Instantiate(projectile,(Vector2)transform.position + offset, Quaternion.identity);
-				attack.name = "Projectile: "+i;
+				attack.name = "Projectile: " + i;
 				projectile_storage.Add(attack);
 				projectile_destruction.Add(attack);
 				rangeCounter.Add(range);
 			}
 
+			//Initiate cooldown time limit
 			coolDownCounter.Add(cooldownTime);
 			player_actual = player_face;
 		}
@@ -109,8 +125,11 @@ public class Attack : MonoBehaviour
 			anim.SetBool("IsAttacking",false);
 		}
 
+		//If projectiles exist 
 		if(projectile_storage != null && projectile_storage.Count > 0)
 		{
+			//First Switch statement on player's direction faced
+			//Second Switch statement based on how many projectiles are being instantiated at one time
 			switch(player_actual)
 			{
 				//Up
@@ -222,9 +241,11 @@ public class Attack : MonoBehaviour
 			}
 		}
 
+		//countdown range and cooldown after being fired
 		rangeCounter = rangeCounter.Select(x => x - Time.deltaTime).ToList(); 
 		coolDownCounter = coolDownCounter.Select(x => x - Time.deltaTime).ToList();
 
+		//Destroy objects when range has been reached
 		for(int i = 0; i < rangeCounter.Count; i++)
 		{
 			if(rangeCounter[i] <= 0 && projectile_destruction.Count > 0)
@@ -235,6 +256,7 @@ public class Attack : MonoBehaviour
 			}
 		}
 
+		//Clear storage when cooldown has been reached
 		for(int i = 0; i < coolDownCounter.Count; i++)
 		{
 			if(coolDownCounter[i] <= 0)
@@ -246,6 +268,7 @@ public class Attack : MonoBehaviour
 		}
 	}
 
+	//Swap player's attack and associated information
 	public void SwapAttack(Magic selected_attack)
 	{
 		switch(selected_attack)
@@ -293,6 +316,7 @@ public class Attack : MonoBehaviour
 		}
 	}
 
+	//Destroy object when called from collision function (when collided with an enemy)
 	public void TargetHit()
 	{
 		if(attack.GetComponent<Animator>() != null && hitAnimation)
@@ -309,18 +333,6 @@ public class Attack : MonoBehaviour
 			{
 				DestroyObject(attack);
 			}
-		}
-		projectile_storage.Clear();
-	}
-
-	public void Attach(Sprite sprite, GameObject enemy)
-	{
-		Debug.Log("Attach");
-		foreach(GameObject attack in projectile_storage)
-		{
-			attack.GetComponent<SpriteRenderer>().sprite = sprite;
-			attack.transform.localPosition = enemy.transform.position;
-			attack.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		}
 		projectile_storage.Clear();
 	}

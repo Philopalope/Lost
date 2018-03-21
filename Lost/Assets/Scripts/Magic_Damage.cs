@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class Magic_Damage : MonoBehaviour {
 
+	//Damage and sprite associated with magic attack
 	public int damage_dealt;
 	public Sprite change_sprite;
+
+	//Handles projectile object and damage number
 	private Attack projectile;
 	private GameObject DamageNumber;
-	private GameObject enemy;
 
 	void Start () 
 	{
 		projectile = FindObjectOfType<Attack>();
 		DamageNumber = Resources.Load<GameObject>("Map/Damage");
 	}
-	
 
-	void Update () {
-
-	}
-
+	//Checks for projectile -> enemy collision
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.gameObject.tag == "Enemy")
@@ -29,19 +27,18 @@ public class Magic_Damage : MonoBehaviour {
 			{
 				projectile.TargetHit();
 			}
-			else if(gameObject.tag == "Magic_attach")
-			{
-				projectile.Attach(change_sprite,other.gameObject);
-			}
+			//Displays damage as number on screen
 			other.gameObject.GetComponent<Enemy_Stats>().doDamage(damage_dealt);
 			var clone = (GameObject) Instantiate(DamageNumber,transform.position,Quaternion.identity);
 			clone.transform.position = new Vector2(transform.position.x,transform.position.y);
 			clone.GetComponent<DisplayDamageNumber>().damageNumber = damage_dealt;
 			//projectile.TargetHit();
-			//Flash Red
+
+			//TO DO --- FLASH ENEMY DIFFERENT COLORS TO INDICATE DAMAGE 
 		}
 	}
 
+	//Destroy projectile after animation is finished
 	public void DestroyOnAnimation()
 	{
 		Destroy(projectile);

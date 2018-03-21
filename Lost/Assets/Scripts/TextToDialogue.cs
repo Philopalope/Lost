@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class TextToDialogue : MonoBehaviour {
 
+	//Dialogue Manager reference
 	private DialogueManager DM;
 
+	//Lines of NPC to output
 	public string[] lines;
 
 	void Start () 
 	{
 		DM = FindObjectOfType<DialogueManager>();
 	}
-	
-	void Update () 
-	{
 
-	}
-
+	//When player collides with NPC
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if(other.gameObject.name == "Player")
-		{
+		{	
+			//If player hits E and dialogue is ready
 			if(Input.GetKeyDown(KeyCode.E) && DM.GetComponent<DialogueManager>().dialogueOpen == false
 				&& DM.GetComponent<DialogueManager>().dialogueReady == true && DM.releasedE)
 			{
@@ -30,7 +29,7 @@ public class TextToDialogue : MonoBehaviour {
 				DM.DisplayDialogue();
 				DM.releasedE = false;
 
-
+				//Halt NPC
 				if(GetComponentInParent<NPC_RandomMovement>() != null)
 				{
 					GetComponentInParent<NPC_RandomMovement>().inDialogue = true;

@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class Spider_Control : MonoBehaviour 
 {
+	//Enemy walk speed
 	public float Enemy_Speed = 1.1f;
 
+	//Enemy components
 	private Rigidbody2D Erbody;
 	private Animator Eanim;
 	private Collider2D collide;
 
+	//Enemy variables referencing components
 	public Collider2D AreaConfinement;
 	private Vector2 minWalkPoint;
 	private Vector2 maxWalkPoint;
+	
+	//Enemy variables handling movement
 	private bool Enemy_Confined = false;
-
 	private bool isWalking;
 	private int direction_x;
 	private int direction_y;
 	private int direction_raw;
 
+	//Enemy timers 
 	private float walkTime;
 	private float walkCounter;
 	private float waitTime;
@@ -32,6 +37,7 @@ public class Spider_Control : MonoBehaviour
 		Eanim = GetComponent<Animator>();
 		Erbody = GetComponent<Rigidbody2D>();
 		collide = GetComponent<Collider2D>();
+		//If confinement exists, set bounds
 		if(AreaConfinement != null)
 		{
 			minWalkPoint = AreaConfinement.bounds.min;
@@ -47,6 +53,7 @@ public class Spider_Control : MonoBehaviour
 	
 	void FixedUpdate () 
 	{
+		//If not dead, animate and move
 		if(!Eanim.GetBool("IsDead"))
 		{
 			if(isWalking)
@@ -100,6 +107,7 @@ public class Spider_Control : MonoBehaviour
 						direction_y = 0;
 						break;
 				}
+				//If counter hits 0, halt
 				if(walkCounter < 0)
 				{
 					isWalking = false;
@@ -111,6 +119,7 @@ public class Spider_Control : MonoBehaviour
 			{
 				waitCounter -= Time.deltaTime;
 				Erbody.velocity = Vector2.zero;
+				//If wait counter hits 0, choose new direction and move
 				if(waitCounter < 0)
 				{
 					RandomDirection();
@@ -124,6 +133,7 @@ public class Spider_Control : MonoBehaviour
 			collide.enabled = false;
 			Erbody.velocity = Vector2.zero;
 			despawnCounter -= Time.deltaTime;
+			//Despawn object after animation has played and is dead
 			if(despawnCounter < 0)
 			{
 				//ADD PARTICLE ON DESTROY
@@ -132,6 +142,7 @@ public class Spider_Control : MonoBehaviour
 		}
 	}
 
+	//Choose new direction to move in
 	public void RandomDirection()
 	{
 		direction_raw = Random.Range(0,4);

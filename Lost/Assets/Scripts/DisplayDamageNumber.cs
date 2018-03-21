@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class DisplayDamageNumber : MonoBehaviour {
 
+	//Damage number variables
 	public float moveSpeed;
 	public int damageNumber;
 	public Text damageText;
 
+	//Time of number displayed on screen
 	public float timeOfNumber;
 
+	//Display Damage number object when damage is given
 	void Update () 
 	{
 		damageText.text = "" + damageNumber;

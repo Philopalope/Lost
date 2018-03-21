@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Special_Dialogue : MonoBehaviour {
 
+	//Dialogue manager
 	private DialogueManager DM;
 
+	//Dialogue specific to NPC
 	public string[] lines;
 	public KeyCode[] options;
 	public bool one_time_information;
@@ -15,16 +17,13 @@ public class Special_Dialogue : MonoBehaviour {
 	{
 		DM = FindObjectOfType<DialogueManager>();
 	}
-	
-	void Update () 
-	{
 
-	}
-
+	//On collision with player
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if(other.gameObject.name == "Player")
 		{
+			//Open menu if ready and player presses E
 			if(Input.GetKeyUp(KeyCode.E) && DM.GetComponent<DialogueManager>().dialogueOpen == false
 				&& DM.GetComponent<DialogueManager>().dialogueReady == true)
 			{
@@ -43,7 +42,7 @@ public class Special_Dialogue : MonoBehaviour {
 					}
 
 				}
-
+				//Halt NPC movement
 				if(GetComponentInParent<NPC_RandomMovement>() != null)
 				{
 					GetComponentInParent<NPC_RandomMovement>().inDialogue = true;

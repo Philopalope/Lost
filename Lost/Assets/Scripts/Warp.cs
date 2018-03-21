@@ -6,6 +6,7 @@ public class Warp : MonoBehaviour {
 
 	public Transform warpTarget;
 
+	//When player collides, warp to target
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.gameObject.name == "Player")

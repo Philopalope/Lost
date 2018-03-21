@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class Player_StatManager : MonoBehaviour {
 
+	//Inventory and Magic menu references
 	public Inventory inventory;
 	public MagicMenu magic;
+
+	//Player movement and player particle system
 	private PlayerMovement player_active;
 	private ParticleSystem psystem;
 
+	//Player active stats
 	public int playerMaxHealth;
 	public int playerCurrentHealth;
-	private int displayedHealth;
 	public int playerMaxMP;
 	public int playerCurrentMP;
-	private int displayedMP;
 
+
+	//Player passive stats
 	public int experience;
 	public int experience_to_level;
 	public int gold;
@@ -28,8 +32,6 @@ public class Player_StatManager : MonoBehaviour {
 		psystem = GetComponent<ParticleSystem>();
 
 		playerCurrentHealth = playerMaxHealth;
-		displayedHealth = playerCurrentHealth;
-
 		gold = 100;
 		experience_to_level = 100;
 
@@ -38,26 +40,30 @@ public class Player_StatManager : MonoBehaviour {
 	
 	void Update () 
 	{
-
+		//If player health reaches 0, animate death
 		if(playerCurrentHealth <= 0)
 		{
 			gameObject.GetComponent<Animator>().SetBool("IsDead",true);
 		}
+		//Limit health to max health amount
 		else if(playerCurrentHealth > playerMaxHealth)
 		{
 			playerCurrentHealth = playerMaxHealth;
 		}
 
+		//If experience cap is reached, level up
 		if(experience >= experience_to_level)
 		{
 			LevelUp();
 		}
 
+		//Open inventory window
 		if(Input.GetKeyDown(KeyCode.I))
 		{
 			player_active.pause = !player_active.pause;
 			inventory.ToggleInventory();
 		}
+		//Open magic menu window
 		else if(Input.GetKeyDown(KeyCode.M))
 		{
 			player_active.pause = !player_active.pause;
@@ -67,24 +73,21 @@ public class Player_StatManager : MonoBehaviour {
 
 	}
 
+	//Do damage to player
 	public void doDamage(int damage)
 	{
-		displayedHealth -= damage;
-		while(playerCurrentHealth != displayedHealth)
-		{
-			if(displayedHealth < playerCurrentHealth)
-			{
-				playerCurrentHealth--;
-			}
-		}
+		playerCurrentHealth -= damage;
+		//TO DO -- Add DEFENSE stat to player that affects damage taken
 	}
 
+	//Give health to player
 	public void HealPlayer(int health)
 	{
 		playerCurrentHealth += health;
 		Debug.Log("Healed for " + health + " hp");
 	}
 
+	//Check if gold can be taken from player
 	public bool ChargeGold(int subtractGold)
 	{
 		if(gold >= subtractGold)
@@ -98,12 +101,14 @@ public class Player_StatManager : MonoBehaviour {
 		
 	}
 
+	//Increase max health
 	public void changeMaxHealth(int maxHealth)
 	{
-		playerMaxHealth = maxHealth;
+		playerMaxHealth += maxHealth;
+		playerCurrentHealth = playerMaxHealth;
 	}
 
-	//Pickup Item
+	//Pickup Item when collided with
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.tag == "Item" || other.tag == "QuestItem")
@@ -113,6 +118,7 @@ public class Player_StatManager : MonoBehaviour {
 		}
 	}
 
+	//Increase experience cap and add 1 magic point to player, play particle system
 	private void LevelUp()
 	{
 		experience -= experience_to_level;
@@ -120,6 +126,7 @@ public class Player_StatManager : MonoBehaviour {
 		magic_points++;
 		experience_to_level += experience_to_level*level;
 		psystem.Play();
-		//DISPLAY LEVEL UP
+		
+		//TO DO --- Display LEVEL UP on top of player w/ their level number
 	}
 }

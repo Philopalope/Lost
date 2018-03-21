@@ -3,27 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
 //CHANGE
 public class Stacks : MonoBehaviour, IPointerClickHandler
 {
 
+	//Stack of items and their text
 	private Stack<Item> items;
-
 	public Text stackText;
 
+	//Slot Sprites
 	public Sprite slotEmpty;
 	public Sprite slotHighlight;
 
+	//Helper Functions
 	public Item CurrentItem{ get {return items.Peek();}}
 	public bool IsAvailable{ get {return CurrentItem.maxSize > items.Count; }}
 	public bool IsEmpty { get{ return items.Count == 0;}}
 
+	//Get private variable stack of items
 	public Stack<Item> Items
 	{
 		get {return items;}
 		set {items = value;}
 	}
 
+	//initialize variables, components, and objects
 	void Start()
 	{
 		items = new Stack<Item>();
@@ -38,6 +43,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRect.sizeDelta.y);
 	}
 
+	//Add item to Stack and change resulting sprite to item sprite
 	public void AddItem(Item itemAdd)
 	{
 		items.Push(itemAdd);
@@ -50,6 +56,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		ChangeSprite(itemAdd.spriteNeutral, itemAdd.spriteHighlighted);
 	}
 
+	//Add multiple items to stack and change resulting sprite 
 	public void AddItems(Stack<Item> itemsAdd)
 	{
 		this.items = new Stack<Item>(itemsAdd);
@@ -57,6 +64,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		ChangeSprite(CurrentItem.spriteNeutral, CurrentItem.spriteHighlighted);
 	}
 
+	//Change sprite of inventory slot
 	private void ChangeSprite(Sprite neutral, Sprite highlighted)
 	{
 		GetComponent<Image>().sprite = neutral;
@@ -70,6 +78,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		GetComponent<Button>().spriteState = ss;
 	}
 
+	//Check if item is useable and then use it (call function associated with item)
 	private void UseItem()
 	{
 		if(!IsEmpty)
@@ -91,6 +100,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		}
 	}
 
+	//Remove sprite and text from slot
 	public void ClearSlot()
 	{
 		items.Clear();
@@ -98,6 +108,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		stackText.text = string.Empty;
 	}
 
+	//Handles mouseclick event
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		if(eventData.button == PointerEventData.InputButton.Right)

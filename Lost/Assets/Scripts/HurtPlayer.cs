@@ -5,17 +5,8 @@ using UnityEngine;
 public class HurtPlayer : MonoBehaviour {
 
 	public int damage;
-	
-	void Start () 
-	{
-		
-	}
-	
-	void Update () 
-	{
-		
-	}
 
+	//When collided with player, do damage
 	void OnCollisionEnter2D(Collision2D other)
 	{
 		if(other.gameObject.name == "Player")

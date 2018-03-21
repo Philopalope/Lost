@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class Player_GUI : MonoBehaviour {
 
+	//Health bar info displayed on GUI
 	public Slider healthbar;
 	public Text health_Text;
 	public Player_StatManager playerHP;
 	private int displayedHealth;
 
-	void Start () {
-		
-	}
-	
+	//Update player stats into GUI
 	void Update () {
 		healthbar.maxValue = playerHP.playerMaxHealth;
 		healthbar.value = playerHP.playerCurrentHealth;
