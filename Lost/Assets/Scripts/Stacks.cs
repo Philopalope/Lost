@@ -10,6 +10,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 
 	//Stack of items and their text
 	private Stack<Item> items;
+	public GameObject itemStored;
 	public Text stackText;
 
 	//Slot Sprites
@@ -48,6 +49,9 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 	{
 		items.Push(itemAdd);
 
+		string item_path = itemAdd.name;
+		itemStored = Resources.Load<GameObject>("Items/" + item_path);
+
 		if(items.Count > 1)
 		{
 			stackText.text = items.Count.ToString();
@@ -56,10 +60,13 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 		ChangeSprite(itemAdd.spriteNeutral, itemAdd.spriteHighlighted);
 	}
 
-	//Add multiple items to stack and change resulting sprite 
-	public void AddItems(Stack<Item> itemsAdd)
+	//Change item stack and GameObject of item between slots 
+	public void SwapItems(Stack<Item> itemsAdd, GameObject objectToSwap)
 	{
 		this.items = new Stack<Item>(itemsAdd);
+		
+		itemStored = objectToSwap;
+
 		stackText.text = itemsAdd.Count > 1 ? itemsAdd.Count.ToString() : string.Empty;
 		ChangeSprite(CurrentItem.spriteNeutral, CurrentItem.spriteHighlighted);
 	}
@@ -104,6 +111,7 @@ public class Stacks : MonoBehaviour, IPointerClickHandler
 	public void ClearSlot()
 	{
 		items.Clear();
+		itemStored = null;
 		ChangeSprite(slotEmpty,slotHighlight);
 		stackText.text = string.Empty;
 	}

@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour
 	private float slotSize = 40f;
 	public GameObject slotPrefab;
 
-	//Handle Item switching
+	//Handle Item switching and discard
 	private Stacks frm, to;
 	private List<GameObject> allSlots;
 
@@ -106,21 +106,22 @@ public class Inventory : MonoBehaviour
 
 		inventoryRect.position = new Vector3(inventoryShiftX,inventoryShiftY,inventoryRect.position.z);
 
-		//Top row of inventory slots representing player item bar
+		//Inventory slots representing player item bar
+		/*
 		for(int x = 0; x < (slots/rows); x++)
 		{
 			GameObject playerSlot = (GameObject) Instantiate(slotPrefab);
 
 			RectTransform playerSlotRect = playerSlot.GetComponent<RectTransform>();
 
-			playerSlot.name = "Tab Slot " + x;
+			playerSlot.name = "Active Slot " + x;
 			playerSlot.transform.SetParent(this.transform.parent);
 			playerSlot.transform.SetSiblingIndex(x);
 
-			playerSlotRect.localPosition = inventoryRect.localPosition + new Vector3(slotPaddingLeft + (slotSize * x), 50);
+			playerSlotRect.localPosition = inventoryRect.localPosition + new Vector3(-slotPaddingLeft - slotSize, -slotPaddingTop - (slotSize*x));
 			playerSlotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize);
 			playerSlotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
-		}
+		}*/
 
 		//Item "back pack" inventory
 		for(int i = 0; i < rows; i++)
@@ -143,7 +144,46 @@ public class Inventory : MonoBehaviour
 				allSlots.Add(newSlot);
 			}
 		}
+	}
 
+	public void IncreaseRows(int row_increase)
+	{
+		slots += row_increase*(slots/rows);
+		rows += row_increase;
+
+		for(int i = 0; i < row_increase; i++)
+		{
+			for(int j = 0; j < (slots/rows); j++)
+			{
+				GameObject newSlot = (GameObject) Instantiate(slotPrefab);
+
+				RectTransform slotRect = newSlot.GetComponent<RectTransform>();
+
+				newSlot.name = "Slot " + j + (slots*rows);
+				newSlot.transform.SetParent(this.transform.parent);
+
+				slotRect.localPosition = inventoryRect.localPosition + new Vector3(slotPaddingLeft + (slotSize * j), -slotPaddingTop - (slotSize*(rows-(i+1))));
+				newSlot.transform.SetParent(this.transform);
+
+				slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize);
+				slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
+
+				allSlots.Add(newSlot);
+			}
+		}
+
+		inventoryWidth = (slots / rows) * (slotSize) + slotPaddingLeft*2;
+		inventoryHeight = (rows) * (slotSize) + slotPaddingTop*2;
+
+		inventoryRect = GetComponent<RectTransform>();
+
+		inventoryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, inventoryWidth);
+		inventoryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inventoryHeight);
+
+		inventoryShiftX = (Screen.width/2) - (inventoryRect.rect.width/2);
+		inventoryShiftY = (Screen.height/2) + (inventoryRect.rect.height/2);
+
+		inventoryRect.position = new Vector3(inventoryShiftX,inventoryShiftY,inventoryRect.position.z);
 	}
 
 	//Turn tooltip on when hovering over item
@@ -253,7 +293,9 @@ public class Inventory : MonoBehaviour
 		if(to != null && frm != null)
 		{
 			Stack<Item> swapTo = new Stack<Item>(to.Items);
-			to.AddItems(frm.Items);
+			GameObject swapObject = to.itemStored;
+
+			to.SwapItems(frm.Items, frm.itemStored);
 
 			if(swapTo.Count == 0)
 			{
@@ -261,7 +303,7 @@ public class Inventory : MonoBehaviour
 			}
 			else
 			{
-				frm.AddItems(swapTo);
+				frm.SwapItems(swapTo, swapObject);
 			}
 			frm.GetComponent<Image>().color = Color.white;
 			to = null;
@@ -277,5 +319,21 @@ public class Inventory : MonoBehaviour
 		canvas_enabled = !canvas_enabled;
 	}
 
+	public void DiscardItem()
+	{
+		if(frm != null && frm.itemStored.GetComponent<Item>().type != ItemName.QuestItem)
+		{
+			GameObject droppedItem = Instantiate(frm.itemStored,FindObjectOfType<Player_StatManager>().transform.position + new Vector3(0.3f,0,0),Quaternion.identity);
+			droppedItem.name = frm.itemStored.name;
+			droppedItem.GetComponent<Item>().numberOfItems = frm.Items.Count;
+			frm.ClearSlot();
+			frm.GetComponent<Image>().color = Color.white;
+			frm = null;
+		}
+		else
+		{
+			Debug.Log("Cannot Drop Item");
+		}
+	}
 }
 

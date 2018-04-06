@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Items and Quest Items defined globally
-public enum ItemName{HPotion, MPotion, Inn, QuestItem};
+public enum ItemName{HPotion, MPotion, Backpack, Inn, Food, QuestItem};
 public enum QuestItem{None, Gloves};
 
 //CHANGE
@@ -11,6 +11,7 @@ public class Item : MonoBehaviour
 {
 	//Item info and player stat manager
 	private Player_StatManager PSM;
+	private Inventory IM;
 	public enum ItemRarity{Common, Rare, Legendary, Quest};
 
 	//Stored item type and rarity
@@ -24,11 +25,14 @@ public class Item : MonoBehaviour
 	//Item usability, size of stack, and description in inventory
 	public bool useableItem;
 	public int maxSize;
+	public int numberOfItems;
+	public int restorePointsAmount;
 	public string description;
 
 	void Start()
 	{
 		PSM = FindObjectOfType<Player_StatManager>();
+		IM = FindObjectOfType<Inventory>();
 	}
 
 	//Do something based on item used
@@ -37,10 +41,16 @@ public class Item : MonoBehaviour
 		switch(type)
 		{
 			case ItemName.HPotion:
-				PSM.HealPlayer(50);
+				PSM.HealPlayer(restorePointsAmount);
 				break;
 			case ItemName.MPotion:
-				Debug.Log("Mana");
+				PSM.HealMagic(restorePointsAmount);
+				break;
+			case ItemName.Backpack:
+				IM.IncreaseRows(restorePointsAmount);
+				break;
+			case ItemName.Food:
+				PSM.HealPlayer(restorePointsAmount);
 				break;
 		}
 	}
@@ -76,10 +86,10 @@ public class Item : MonoBehaviour
 		switch(rarity)
 		{
 			case ItemRarity.Common:
-				color = "grey";
+				color = "white";
 				break;
 			case ItemRarity.Rare:
-				color = "blue";
+				color = "teal";
 				break;
 			case ItemRarity.Legendary:
 				color = "pink";

@@ -9,112 +9,80 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1531898511893294}
+  m_RootGameObject: {fileID: 1593419739191358}
   m_IsPrefabParent: 1
---- !u!1 &1531898511893294
+--- !u!1 &1593419739191358
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4630505453211776}
-  - component: {fileID: 212677482376450856}
-  - component: {fileID: 58973373444080200}
-  - component: {fileID: 50358685527268440}
-  - component: {fileID: 114712330307036724}
-  - component: {fileID: 95577223053192530}
+  - component: {fileID: 4203456858606468}
+  - component: {fileID: 212724156684813340}
+  - component: {fileID: 114437508337913184}
+  - component: {fileID: 58439476969240982}
   m_Layer: 0
-  m_Name: firecharge
-  m_TagString: Magic
+  m_Name: Magic Potion (Large)
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4630505453211776
+--- !u!4 &4203456858606468
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1531898511893294}
+  m_GameObject: {fileID: 1593419739191358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14, y: -8.9, z: 0}
-  m_LocalScale: {x: 0.0882093, y: 0.0882093, z: 1}
+  m_LocalPosition: {x: 13.737839, y: -5.8086243, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50358685527268440
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1531898511893294}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!58 &58973373444080200
+--- !u!58 &58439476969240982
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1531898511893294}
+  m_GameObject: {fileID: 1593419739191358}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.66, y: 0}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.6481981
---- !u!95 &95577223053192530
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1531898511893294}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114712330307036724
+  m_Radius: 0.15
+--- !u!114 &114437508337913184
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1531898511893294}
+  m_GameObject: {fileID: 1593419739191358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c34c5f0ee090c94690ea2dc2cc48aca, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a364c2578095664ca948399be647ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage_dealt: 5
-  change_sprite: {fileID: 21300002, guid: f6f2032d46fbfa842afd963ad0047161, type: 3}
---- !u!212 &212677482376450856
+  type: 1
+  rarity: 1
+  spriteNeutral: {fileID: 21300000, guid: e30d96e72aadb3d4a8686eb465e229d0, type: 3}
+  spriteHighlighted: {fileID: 21300002, guid: e30d96e72aadb3d4a8686eb465e229d0, type: 3}
+  useableItem: 1
+  maxSize: 10
+  numberOfItems: 1
+  restorePointsAmount: 250
+  description: Restore 250 Magic Power
+--- !u!212 &212724156684813340
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1531898511893294}
+  m_GameObject: {fileID: 1593419739191358}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -142,13 +110,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 8
-  m_Sprite: {fileID: 21300000, guid: f6f2032d46fbfa842afd963ad0047161, type: 3}
+  m_SortingOrder: 7
+  m_Sprite: {fileID: 21300062, guid: 4bbb8517f900fe449801217e9bb63102, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.6, y: 1.3}
+  m_Size: {x: 0.34, y: 0.34}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

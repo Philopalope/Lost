@@ -23,8 +23,8 @@ public class Attack : MonoBehaviour
 
 	//Range and Cooldown of attack
 	private List<float> rangeCounter = new List<float>();
-	public float range=0.9f;
 	private List<float> coolDownCounter = new List<float>();
+	public float range=0.9f;
 	public float cooldownTime=0.9f;
 
 	//Projectile boolean information
@@ -278,36 +278,54 @@ public class Attack : MonoBehaviour
 				projectile_amount = 1;
 				is_rotated = true;
 				hitAnimation = false;
+
+				range=0.9f;
+				cooldownTime=0.9f;
 				break;
 			case Magic.firebomb:
 				projectile = Resources.Load<GameObject>("Magic/firebomb");
 				projectile_amount = 1;
 				is_rotated = true;
 				hitAnimation = true;
+
+				range=0.9f;
+				cooldownTime=0.9f;
 				break;
 			case Magic.airburst:
 				projectile = Resources.Load<GameObject>("Magic/airburst");
 				projectile_amount = 1;
 				is_rotated = false;
 				hitAnimation = false;
+
+				range=0.9f;
+				cooldownTime=0.9f;
 				break;
 			case Magic.tripleburst:
 				projectile = Resources.Load<GameObject>("Magic/tripleburst");
 				projectile_amount = 3;
 				is_rotated = false;
 				hitAnimation = false;
+
+				range=0.9f;
+				cooldownTime=0.9f;
 				break;
 			case Magic.storm:
 				projectile = Resources.Load<GameObject>("Magic/tornado");
 				projectile_amount = 1;
 				is_rotated = false;
 				hitAnimation = true;
+
+				range=0.9f;
+				cooldownTime=0.9f;
 				break;
 			case Magic.firecharge:
 				projectile = Resources.Load<GameObject>("Magic/firecharge");
 				projectile_amount = 1;
 				is_rotated = true;
 				hitAnimation = false;
+
+				range=0.9f;
+				cooldownTime=1.2f;
 				break;
 			default:
 				Debug.Log("Failed to load: " + selected_attack.ToString());

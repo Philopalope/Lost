@@ -11,7 +11,7 @@ TagManager:
   - QuestItem
   - Chest
   - QuestChest
-  - Magic_attach
+  - Item_UseOnPickup
   layers:
   - Default
   - TransparentFX

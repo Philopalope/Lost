@@ -41,15 +41,19 @@ public class OpenChest : MonoBehaviour {
 		player_items.gold += gold_portion;
 		Debug.Log("Gold Given: " + gold_portion);
 
+		GameObject itemGiven;
 		//Give items to player
 		foreach(ItemName itemType in Items)
 		{
 			switch(itemType)
 			{
 				case ItemName.HPotion:
-					Instantiate(Resources.Load<GameObject>("Items/Health Potion (Large)"),player.transform.position,Quaternion.identity);
+					itemGiven = Instantiate(Resources.Load<GameObject>("Items/Health Potion (Large)"),player.transform.position,Quaternion.identity);
+					itemGiven.name = "Health Potion (Large)";
 					break;
 				case ItemName.MPotion:
+					itemGiven = Instantiate(Resources.Load<GameObject>("Items/Magic Potion (Large)"),player.transform.position,Quaternion.identity);
+					itemGiven.name = "Magic Potion (Large)";
 					break;	
 			}
 		}
@@ -60,7 +64,8 @@ public class OpenChest : MonoBehaviour {
 			switch(questItem)
 			{
 				case QuestItem.Gloves:
-					Instantiate(Resources.Load<GameObject>("Items/Gloves"),player.transform.position,Quaternion.identity);
+					itemGiven = Instantiate(Resources.Load<GameObject>("Items/Gloves"),player.transform.position,Quaternion.identity);
+					itemGiven.name = "Gloves";
 					break;
 				default:
 					Debug.Log("Unable to Load Quest Item! Check OpenChest.cs code and contents");

@@ -123,6 +123,7 @@ public class Shop : MonoBehaviour {
 				Instantiate(Resources.Load<GameObject>("Items/Health Potion (Large)"),playerReference.transform.position,Quaternion.identity);
 				break;
 			case ItemName.MPotion:
+				Instantiate(Resources.Load<GameObject>("Items/Magic Potion (Large)"),playerReference.transform.position,Quaternion.identity);
 				break;
 			case ItemName.Inn:
 				playerStats.HealPlayer(99999);

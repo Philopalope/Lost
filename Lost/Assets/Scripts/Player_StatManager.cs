@@ -50,6 +50,10 @@ public class Player_StatManager : MonoBehaviour {
 		{
 			playerCurrentHealth = playerMaxHealth;
 		}
+		if(playerCurrentMP > playerMaxMP)
+		{
+			playerCurrentMP = playerMaxMP;
+		}
 
 		//If experience cap is reached, level up
 		if(experience >= experience_to_level)
@@ -87,6 +91,13 @@ public class Player_StatManager : MonoBehaviour {
 		Debug.Log("Healed for " + health + " hp");
 	}
 
+	//Give magic points to player
+	public void HealMagic(int magic)
+	{
+		playerCurrentMP += magic;
+		Debug.Log("Restored " + magic + " magic");
+	}
+
 	//Check if gold can be taken from player
 	public bool ChargeGold(int subtractGold)
 	{
@@ -113,7 +124,15 @@ public class Player_StatManager : MonoBehaviour {
 	{
 		if(other.tag == "Item" || other.tag == "QuestItem")
 		{
-			inventory.AddItem(other.GetComponent<Item>());
+			for(int i = 0; i < other.GetComponent<Item>().numberOfItems; i++)
+			{
+				inventory.AddItem(other.GetComponent<Item>());
+			}
+			Destroy(other.gameObject);
+		}
+		else if(other.tag == "Item_UseOnPickup")
+		{
+			other.GetComponent<Item>().UseItem();
 			Destroy(other.gameObject);
 		}
 	}
@@ -126,7 +145,7 @@ public class Player_StatManager : MonoBehaviour {
 		magic_points++;
 		experience_to_level += experience_to_level*level;
 		psystem.Play();
-		
+
 		//TO DO --- Display LEVEL UP on top of player w/ their level number
 	}
 }
