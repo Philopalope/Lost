@@ -41,4 +41,7 @@ Finish Player Combat system  (Add at least the 4 different combat types, I curre
 
 
 **Final Note**
-Other classes are ramping up, and the point exercises are not helping one bit, so I will need to scale down the game (content, not implementations) so that I can finish on time. what I mean by this is that I will need to focus on fully implementing something and showing that it works, rather than having EVERYTHING finished, such as dungeons.  I would rather have 1 dungeon fully created and designed with a functional boss rather than 4 incomplete dungeons that aren't done.  Same goes for the combat system.  If I decided to go back and add more instances of a certain system that is finished, I can do so in my free time.
+Other classes are ramping up, and the point exercises are not helping one bit, so I will need to scale down the game (content, not implementations) so that I can finish on time. what I mean by this is that I will need to focus on fully implementing something and showing that it works, rather than having EVERYTHING finished, such as dungeons.  I would rather have 1 dungeon fully created and designed with a functional boss rather than 4 incomplete dungeons that aren't done.  Same goes for the combat system.  If I decided to go back and add more instances of a certain system that is finished, I can do so in my free time.  
+
+**Okay really, Final FINAL Note**
+I'm working on getting the executable file for this project so that it can run on the desktop for users without a complicated process of having to download Unity.  I'll try and have the executable in my repo by the end of the weekend!
