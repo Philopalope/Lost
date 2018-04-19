@@ -10,8 +10,11 @@ New Boss: Golem
 - includes actual stages based on bosses health, and has rewards when you kill him
 
 Started Magic Menu: Works on first tier of magic and allows upgrades for projectile speed, rate of fire, damage, and range
+
 Changed attack damage system and allows for rescaling so damage ups and multipliers work. 
+
 Added magic points that allows you to spend them and upgrade in the magic menu
+
 Created executable to allow gameplay without Unity installed
 
 **Planned for next Deadline**  
