@@ -1,33 +1,20 @@
 # Lost
 
 # Starting Up
-**Does this project run on PC, Mac, or Linux?**  
-As far as I know, it should run on all three of them.  The project template I set up from is for all three of them, however, Unity could be funky depending on the specifications of your computer.  On Linux, you might need to run Unity through Wine as well. I don't have Linux or a Mac so I will need additional time to find a friend who does (so I can figure out the steps to run it on there if it doesn't work).
+**Does this project run on Windows, Mac, or Linux?**  
+The Build version of this Project (in Unity) states it is for Windows, Mac, and Linux so it should work.  Please give feedback if it doesn't work on Mac or Linux as I have not been able to find out if it does or not.
 
 # Installation
 
-**Download Unity**  
-You can download the free version of Unity by downloading from "Personal."  Follow the installation steps and run it.
+**Download Files**  
+You can either create a new branch or just download the ZIP file.  
   
-**Download or Pull project from Github**  
-Put the contents into a local file
-
-**Open Project**  
-In the Unity startup menu, select "Open" and navigate to the file that contains the project files.  In Unity, you do not open a project file. Instead, you select the folder that contains all of the assets, and load that.
-
-**Open Scene**  
-Once the project is open, you must load the only scene I have made right now.  
-*File -> Open Scene -> Lost.unity* 
-  
-This will load the scene and allow you to compile the project.
-
-**Run Project**  
-Once you've got the scene loaded in, you can press the play button at the top and start up the game!
+**Run the Game**
+All you have to do is run the executable :) It is located in Lost/Lost.exe 
+It will ask you what screen size, graphics, and monitor you would like to use.  If the default settings look good, just hit Build and give it a go!
 
 
 # Game Instructions
-The game is a rogue-like 2D RPG. Use WASD or Up-Down-Left-Right arrows to control the player. Tap space bar to fire your magic attack and E to interact with NPC's and chests.  
-  
-You can mess around with certain in game values like Gold, Health, and even the player's attack type.  But be careful about what you change as unlinking certain GameObjects can result in the project not compiling.
+WASD to move around, and space bar to fire. The default is set to not fire at all so just hit M and purchase the top left most item from the magic menu. This will "unlock" the first magic attack.  I've also set it to just auto equip the magic if you hit 1, 2, or 3.  This is a temporary work around that I'm using to test out the Magic Menu. To search chests you get close and hit E. To interact with your inventory and the magic menu you use your mouse. To use an item in the inventory you can right click on the item and it will use it (if it is a useable item).  The README will be changed on the final checkpoint for a full breakdown of controls / game mechanics.
 
 If you wish to see what I've actually written or added go to *Assets -> Scripts*
