@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum Magic {fireball, firebomb, firecharge, airburst, tripleburst, storm, icespikes, none};
+
 public class Attack : MonoBehaviour
 {
 	//Animator of projectile, DialogueManager reference, Inventory reference
@@ -27,15 +29,22 @@ public class Attack : MonoBehaviour
 	public float range=0.9f;
 	public float cooldownTime=0.9f;
 
+	public int multiplier_1 = 1;
+	public int multiplier_2 = 1;
+	public int multiplier_3 = 1;
+
 	//Projectile boolean information
 	public bool ReadyToFire = true;
 	private bool rotate_once = true;
 	private bool is_rotated;
 	private bool hitAnimation;
 	public bool isFiring;
+	private bool firingUp;
+	private bool firingDown;
+	private bool firingLeft;
+	private bool firingRight;
 
 	//Info for what to load as projectile
-	public enum Magic {fireball, firebomb, firecharge, airburst, tripleburst, storm};
 	public Magic magic_attack;
 	private GameObject attack;
 	private GameObject projectile;
@@ -50,7 +59,7 @@ public class Attack : MonoBehaviour
 	void Start () 
 	{
 		anim = GetComponent<Animator>();
-		magic_attack = Magic.tripleburst;
+		magic_attack = Magic.fireball;
 		DM = FindObjectOfType<DialogueManager>();
 		INV = FindObjectOfType<Inventory>();
 	}
@@ -58,11 +67,9 @@ public class Attack : MonoBehaviour
 
 	void Update () 
 	{
-		//TO DO --- ALLOW PLAYER TO CHANGE THEIR ATTACK METHOD
-		SwapAttack(magic_attack);
-
 		//Get player's direction and allow projectile to spawn in that direction
 		Vector2 facing_vector = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
+
 		//Up
 		if(facing_vector == new Vector2(0,1) || facing_vector == new Vector2(1,1) || facing_vector == new Vector2(-1,1))
 		{
@@ -89,7 +96,48 @@ public class Attack : MonoBehaviour
 			offset = new Vector2(offsetNum,0);
 		}
 
-		//Fire projectile on space down -> stop when space up (allows continuous firing)
+		//Fire projectiles in direction of arrow pressed
+		// if(Input.GetKeyDown(KeyCode.UpArrow))
+		// {
+		// 	isFiring = true;
+		// 	firingUp = true;
+		// }
+		// else if(Input.GetKeyDown(KeyCode.DownArrow))
+		// {
+		// 	isFiring = true;
+		// 	firingDown = true;
+		// }
+		// else if(Input.GetKeyDown(KeyCode.LeftArrow))
+		// {
+		// 	isFiring = true;
+		// 	firingLeft = true;
+		// }
+		// else if(Input.GetKeyDown(KeyCode.RightArrow))
+		// {
+		// 	isFiring = true;
+		// 	firingRight = true;
+		// }
+		// else if(Input.GetKeyUp(KeyCode.UpArrow))
+		// {
+		// 	firingUp = false;
+		// }
+		// else if(Input.GetKeyUp(KeyCode.DownArrow))
+		// {
+		// 	firingDown = false;
+		// }
+		// else if(Input.GetKeyUp(KeyCode.LeftArrow))
+		// {
+		// 	firingLeft = false;
+		// }
+		// else if(Input.GetKeyUp(KeyCode.RightArrow))
+		// {
+		// 	firingRight = false;
+		// }
+
+		// if(!firingRight && !firingLeft && !firingDown && !firingUp)
+		// {
+		// 	isFiring = false;
+		// }
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
 			isFiring = true;
@@ -98,6 +146,7 @@ public class Attack : MonoBehaviour
 		{
 			isFiring = false;
 		}
+		
 
 		//Fire only when cooldown is reached and dialogue and inventory are not open
 		if(isFiring && ReadyToFire && !DM.dialogueOpen && !INV.canvas_enabled)
@@ -240,7 +289,7 @@ public class Attack : MonoBehaviour
 					break;
 			}
 		}
-
+		
 		//countdown range and cooldown after being fired
 		rangeCounter = rangeCounter.Select(x => x - Time.deltaTime).ToList(); 
 		coolDownCounter = coolDownCounter.Select(x => x - Time.deltaTime).ToList();
@@ -271,6 +320,9 @@ public class Attack : MonoBehaviour
 	//Swap player's attack and associated information
 	public void SwapAttack(Magic selected_attack)
 	{
+		magic_attack = selected_attack;
+		
+		projectile_storage.Clear();
 		switch(selected_attack)
 		{
 			case Magic.fireball:
@@ -307,7 +359,7 @@ public class Attack : MonoBehaviour
 				hitAnimation = false;
 
 				range=0.9f;
-				cooldownTime=0.9f;
+				cooldownTime=0.1f;
 				break;
 			case Magic.storm:
 				projectile = Resources.Load<GameObject>("Magic/tornado");
@@ -326,6 +378,16 @@ public class Attack : MonoBehaviour
 
 				range=0.9f;
 				cooldownTime=1.2f;
+				break;
+			//Not yet finished for player use
+			case Magic.icespikes:
+				projectile = Resources.Load<GameObject>("Magic/IceSpikes/Spike4");
+				projectile_amount = 1;
+				is_rotated = false;
+				hitAnimation = false;
+
+				range = 0.9f;
+				cooldownTime=0.9f;
 				break;
 			default:
 				Debug.Log("Failed to load: " + selected_attack.ToString());
@@ -353,5 +415,80 @@ public class Attack : MonoBehaviour
 			}
 		}
 		projectile_storage.Clear();
+	}
+
+	public void ChangeAttack(int tab_slot,MagicSelection magic)
+	{
+		switch(magic)
+		{
+			case MagicSelection.fire:
+				switch(tab_slot)
+				{
+					//fireball
+					case 1:
+						SwapAttack(Magic.fireball);
+						break;
+					//firebomb
+					case 2:
+						SwapAttack(Magic.firebomb);
+						break;
+					//firecharge
+					case 3:
+						SwapAttack(Magic.firecharge);
+						break;
+				}
+				break;
+			case MagicSelection.air:
+				switch(tab_slot)
+				{
+					//airburst
+					case 1:
+						SwapAttack(Magic.airburst);
+						break;
+					//tripleburst
+					case 2:
+						SwapAttack(Magic.tripleburst);
+						break;
+					//storm
+					case 3:
+						SwapAttack(Magic.storm);
+						break;
+				}
+				break;
+			case MagicSelection.water:
+				switch(tab_slot)
+				{
+					//fireball
+					case 1:
+						SwapAttack(Magic.fireball);
+						break;
+					//firebomb
+					case 2:
+						SwapAttack(Magic.firebomb);
+						break;
+					//firecharge
+					case 3:
+						SwapAttack(Magic.firecharge);
+						break;
+				}
+				break;
+			case MagicSelection.earth:
+				switch(tab_slot)
+				{
+					//fireball
+					case 1:
+						SwapAttack(Magic.fireball);
+						break;
+					//firebomb
+					case 2:
+						SwapAttack(Magic.firebomb);
+						break;
+					//firecharge
+					case 3:
+						SwapAttack(Magic.firecharge);
+						break;
+				}
+				break;
+		}
 	}
 }

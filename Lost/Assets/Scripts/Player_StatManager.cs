@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Player_StatManager : MonoBehaviour {
 
-	//Inventory and Magic menu references
+	//Inventory, Attack, and Magic menu references
 	public Inventory inventory;
 	public MagicMenu magic;
+	public Attack attack;
 
 	//Player movement and player particle system
 	private PlayerMovement player_active;
@@ -26,11 +27,14 @@ public class Player_StatManager : MonoBehaviour {
 	public int magic_points;
 	public int level;
 
+	public MagicSelection magicSelected;
+	public int tab_selected;
+
 	void Start () 
 	{
 		player_active = GetComponent<PlayerMovement>();
 		psystem = GetComponent<ParticleSystem>();
-
+		
 		playerCurrentHealth = playerMaxHealth;
 		gold = 100;
 		experience_to_level = 100;
@@ -74,7 +78,21 @@ public class Player_StatManager : MonoBehaviour {
 			magic.ToggleMagicMenu();
 		}
 
-
+		if(Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			tab_selected = 1;
+			attack.ChangeAttack(tab_selected,magicSelected);
+		}
+		else if(Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			tab_selected = 2;
+			attack.ChangeAttack(tab_selected,magicSelected);
+		}
+		else if(Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			tab_selected = 3;
+			attack.ChangeAttack(tab_selected,magicSelected);
+		}
 	}
 
 	//Do damage to player
@@ -143,7 +161,7 @@ public class Player_StatManager : MonoBehaviour {
 		experience -= experience_to_level;
 		level++;
 		magic_points++;
-		experience_to_level += experience_to_level*level;
+		experience_to_level += 100;
 		psystem.Play();
 
 		//TO DO --- Display LEVEL UP on top of player w/ their level number

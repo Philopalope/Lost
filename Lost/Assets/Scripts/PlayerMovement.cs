@@ -13,12 +13,23 @@ public class PlayerMovement : MonoBehaviour
 	Rigidbody2D rbody;
 	Animator anim;
 
+	private Vector2 movement_vector;
+	private float direction_x = 0f;
+	private float direction_y = 0f;
+	private KeyCode key;
+
 	//Dialogue Manager Reference
 	public DialogueManager DM;
 
 	//Handles if a player can move
 	public bool inDialogue;
 	public bool pause = false;
+
+	//TO DO
+	// private bool firingUp;
+	// private bool firingDown;
+	// private bool firingLeft;
+	// private bool firingRight;
 
 	void Start () 
 	{
@@ -48,14 +59,77 @@ public class PlayerMovement : MonoBehaviour
 		//If player can move, then move
 		if(!anim.GetBool("IsDead") && !pause)
 		{
-			Vector2 movement_vector = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
+			movement_vector = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
+
+			// if(Input.GetKeyDown(KeyCode.UpArrow))
+			// {
+			// 	direction_x = 0;
+			// 	direction_y = 1;
+			// 	firingUp = true;
+			// }
+			// if(Input.GetKeyDown(KeyCode.DownArrow))
+			// {
+			// 	direction_x = 0;
+			// 	direction_y = -1;
+			// 	firingDown = true;
+			// }
+			// if(Input.GetKeyDown(KeyCode.LeftArrow))
+			// {
+			// 	direction_x = -1;
+			// 	direction_y = 0;
+			// 	firingLeft = true;
+			// }
+			// if(Input.GetKeyDown(KeyCode.RightArrow))
+			// {
+			// 	direction_x = 1;
+			// 	direction_y = 0;
+			// 	firingRight = true;
+			// }
+			// if(Input.GetKeyUp(KeyCode.UpArrow))
+			// {
+			// 	firingUp = false;
+			// }
+			// if(Input.GetKeyUp(KeyCode.DownArrow))
+			// {
+			// 	firingDown = false;
+			// }
+			// if(Input.GetKeyUp(KeyCode.LeftArrow))
+			// {
+			// 	firingLeft = false;
+			// }
+			// if(Input.GetKeyUp(KeyCode.RightArrow))
+			// {
+			// 	firingRight = false;
+			// }
+
+			// if(!firingUp && !firingDown && !firingLeft && !firingRight) 
+			// {
+			// 	direction_x = 0;
+			// 	direction_y = 0;
+			// }
+		
+			
 
 			//If not standing still, update direction and animation
 			if (movement_vector != Vector2.zero)
 			{
 				anim.SetBool("IsWalking",true);
+
+				//TO DO
+				// if(firingUp || firingDown || firingLeft || firingRight) 
+				// {
+				// 	anim.SetFloat("Input_x", direction_x);
+				// 	anim.SetFloat("Input_y", direction_y);
+				// }
+				// else
+				// {
+				// 	anim.SetFloat("Input_x", movement_vector.x);
+				// 	anim.SetFloat("Input_y", movement_vector.y);
+				// }
+				
 				anim.SetFloat("Input_x", movement_vector.x);
-				anim.SetFloat("Input_y",movement_vector.y);
+				anim.SetFloat("Input_y", movement_vector.y);
+
 			}
 			else 
 			{ 

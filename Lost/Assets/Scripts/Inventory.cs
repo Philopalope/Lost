@@ -323,6 +323,17 @@ public class Inventory : MonoBehaviour
 	{
 		if(frm != null && frm.itemStored.GetComponent<Item>().type != ItemName.QuestItem)
 		{
+			float drop_coordinate_x = Random.Range(-0.5f,0.5f);
+			float drop_coordinate_y = Random.Range(-0.5f,0.5f);
+			if(drop_coordinate_x < 0.3f && drop_coordinate_x > -0.3f)
+			{
+				drop_coordinate_x = 0.3f;
+			}
+			if(drop_coordinate_y < 0.3f && drop_coordinate_y > -0.3f)
+			{
+				drop_coordinate_y = 0.3f;
+			}
+
 			GameObject droppedItem = Instantiate(frm.itemStored,FindObjectOfType<Player_StatManager>().transform.position + new Vector3(0.3f,0,0),Quaternion.identity);
 			droppedItem.name = frm.itemStored.name;
 			droppedItem.GetComponent<Item>().numberOfItems = frm.Items.Count;

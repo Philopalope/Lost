@@ -12,6 +12,7 @@ TagManager:
   - Chest
   - QuestChest
   - Item_UseOnPickup
+  - EnemyMagic
   layers:
   - Default
   - TransparentFX
