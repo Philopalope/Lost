@@ -22,6 +22,13 @@ Bug Testing
 
 **New Plan for next Deadline**   
 Finish Dungeon layout (currently only on my local save, on my tiled application)
+
 Finish Magic Menu to implement all magic tiers (1, 2, and 3)
+
 Add enough attacks to fill each magical type (fire, water, air, earth)
+
+Add Pause and Main Menu
+
+Add more information on Player's HUD.  Currently the data is all displayed in Unity so the executable won't show any of that information on the player's screen. This will be changed in the final version.
+
 Bug Testing
